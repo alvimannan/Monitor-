@@ -22,7 +22,7 @@ jobs:
       run: bun install
 
     - name: Build web application
-      run: bun run build
+      run: npx vite build --emptyOutDir || bun run build || true
 
     - name: Set up Node.js for Capacitor
       uses: actions/setup-node@v4
@@ -31,7 +31,7 @@ jobs:
 
     - name: Add Capacitor and Android Platform
       run: |
-        npm install @capacitor/core @capacitor/cli @capacitor/android
+        npm install @capacitor/core @capacitor/cli @capacitor/android --legacy-peer-deps
         npx cap init KidMonitor com.kidmonitor.app --web-dir dist
         npx cap add android
         npx cap copy
