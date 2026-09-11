@@ -19,14 +19,14 @@ jobs:
         node-version: 20
 
     - name: Install dependencies
-      run: npm install
+      run: npm install --legacy-peer-deps
 
     - name: Build web application
-      run: npm run build
+      run: npx vite build --emptyOutDir
 
-    - name: Add Capacitor
+    - name: Add Capacitor and Android Platform
       run: |
-        npm install @capacitor/core @capacitor/cli @capacitor/android
+        npm install @capacitor/core @capacitor/cli @capacitor/android --legacy-peer-deps
         npx cap init KidMonitor com.kidmonitor.app --web-dir dist
         npx cap add android
         npx cap copy
@@ -41,7 +41,7 @@ jobs:
       run: |
         cd android
         chmod +x gradlew
-        ./gradlew assembleDebug
+        ./gradlew assembleDebug --no-daemon
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
